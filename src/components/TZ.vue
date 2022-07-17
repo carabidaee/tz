@@ -9,7 +9,9 @@
             </button>
             <button class="card-btn"
                     @click="addCardFromCardsStorage"
-            >Добавить еще</button>
+            >
+                Добавить еще
+            </button>
         </div>
         <div class="card-group">
             <div v-for="card in cards"
