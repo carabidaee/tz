@@ -9,9 +9,7 @@
             </button>
             <button class="card-btn"
                     @click="addCardFromCardsStorage"
-            >
-                Добавить еще
-            </button>
+            >Добавить еще</button>
         </div>
         <div class="card-group">
             <div v-for="card in cards"
@@ -41,6 +39,7 @@
                 />
             </div>
         </div>
+        <error-api v-if="hasError"/>
     </section>
 </template>
 
@@ -52,10 +51,12 @@
   import 'tinymce/icons/default/icons.min'
   import 'tinymce/skins/ui/oxide/skin.min.css'
   import 'tinymce/skins/ui/oxide/content.inline.min.css'
+  import ErrorApi from "./ErrorApi";
 
   export default {
       name: 'TZ',
       components: {
+          ErrorApi,
           Editor
       },
       props: {
@@ -67,6 +68,7 @@
               selectionNode: null,
               cardsStorage: null,
               cards: null,
+              hasError: false,
               editorApiKey: '24ccjtk66ut40q7939e8v3yhp0wed23eliprvjih6uzle3oq',
               editorConfig: {
                   menubar: false,
@@ -85,7 +87,11 @@
                   })
 
                   this.cards = this.cardsStorage.slice(0, 3)
+              }).catch(error => {
+                  throw error
               })
+          }).catch(() => {
+              this.hasError = true
           })
       },
       methods: {
@@ -116,6 +122,7 @@
 
 <style scoped>
     .main {
+        position: relative;
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;;
